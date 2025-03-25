@@ -1,0 +1,11 @@
+OrderID,Product,Category,SubCategory,Quantity,UnitPrice,TotalPrice,Cost,Profit,PaymentMethod,OrderDate
+1001,iPhone 10,Eletrônicos,Smartphones,2,500.00,1000.00,800.00,200.00,Cartão de Crédito,10/05/2023
+1002,Notebook Pro,Eletrônicos,Computadores,1,1200.00,1200.00,900.00,300.00,Pix,10/05/2024
+1003,Geladeira Frost Free,Eletrodomésticos,Refrigeração,1,1500.00,1500.00,1100.00,400.00,Boleto,12/05/2022
+1004,Headphone,Eletrônicos,Acessórios,3,120.00,360.00,240.00,120.00,Cartão de Débito,12/05/2022
+1005,RTX 4070,Eletrônicos,Perifericos,5,4599.00,22995.00,10000.00,12295.00,Cartão de Crédito,10/05/2023
+1006,Smartwatch,Eletrônicos,Wearables,2,250.00,500.00,375.00,125.00,Cartão de Crédito,2023-05-15
+1007,Liquidificador,Eletrodomésticos,Cozinha,1,180.00,180.00,120.00,60.00,Boleto,2023-05-16
+1008,Monitor 4K,Eletrônicos,Computadores,1,800.00,800.00,600.00,200.00,Transferência Bancária,2023-05-17
+1009,Ferro de Passar,Eletrodomésticos,Passar Roupa,1,90.00,90.00,60.00,30.00,Pix,2023-05-18
+1010,Tablet,Eletrônicos,Tablets,1,400.00,400.00,300.00,100.00,Cartão de Débito,2023-05-19
