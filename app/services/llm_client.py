@@ -15,8 +15,6 @@ class LLMClient:
         self._model = genai.GenerativeModel(model_name=model_name)
 
     def format_answer_with_llm(self, question: str, data_result) -> str:
-
-
         prompt = f"""
             Você é um assistente que possui um conjunto de dados já filtrado e agregado.
             Pergunta do usuário: {question}
@@ -26,61 +24,68 @@ class LLMClient:
             - Elabore uma resposta clara, objetiva e completa, utilizando especificamente esses dados fornecidos.
             - Não invente dados; se algo não estiver em 'data_result', não suponha valores.
             - Retorne apenas o texto da resposta, sem formatação adicional, sem JSON.
-"""
+        """
 
         try:
             response = self._model.generate_content(prompt)
             content = response.text.strip()
-
             content = content.replace("```", "").strip()
-
             return content
-
         except Exception as e:
             logging.exception("Erro ao gerar resposta principal com LLM:")
             return f"[Erro ao gerar resposta principal com LLM: {str(e)}]"
 
-    def generate_additional_questions_with_llm(self, original_question: str) -> list:
+    def generate_additional_questions_with_llm(self, original_question: str, data_result) -> list:
 
         prompt = f"""
-            Você é um assistente que conhece um dataset completo (não filtrado) de vendas.
-            A pergunta original do usuário foi: '{original_question}'.
+            Você é um assistente especializado em análise de dados de vendas.
+            
+            A pergunta original do usuário foi: "{original_question}"
+            Aqui está o resultado (parcial/filtrado) da análise, que pode servir de inspiração para novas perguntas:
+            {data_result}
 
-            Crie 3 novas perguntas que façam sentido, aprofundando ou explorando aspectos relacionados. 
-            Para cada uma dessas 3 novas perguntas, elabore uma resposta curta usando o dataset fornecido em 
-            Caso as informações não estejam disponíveis no dataset enviado a você, apenas diga que não sabe a resposta.
-
-
-            IMPORTANTE: Retorne estritamente em JSON, no formato:
+            Instruções:
+            1. Considere que o resultado acima contém dados concretos e já processados.
+            2. Crie exatamente 3 perguntas adicionais que explorem ou detalhem aspectos relacionados a esses dados.
+               - As perguntas devem ser relevantes e coerentes com as informações em "data_result".
+               - Se desejar, aprofunde pontos não explicitados, mas que façam sentido a partir dos dados.
+               - Evite perguntas totalmente genéricas: busque relacionar com as categorias, métricas ou insights demonstrados.
+            3. Para cada uma dessas 3 perguntas, elabore também uma resposta curta utilizando o dataset de vendas.
+               - Se as informações não estiverem disponíveis, retorne um disclaimer dizendo que não tem dados suficientes.
+               
+            IMPORTANTE: Retorne estritamente em JSON no seguinte formato:
             [
-            {{
-                "question": "...",
-                "answer": "... (com disclaimer)"
-            }},
-            {{
-                "question": "...",
-                "answer": "... (com disclaimer)"
-            }},
-            {{
-                "question": "...",
-                "answer": "... (com disclaimer)"
-            }}
+              {{
+                "question": "Pergunta 1",
+                "answer": "Resposta curta"
+              }},
+              {{
+                "question": "Pergunta 2",
+                "answer": "Resposta curta"
+              }},
+              {{
+                "question": "Pergunta 3",
+                "answer": "Resposta curta"
+              }}
             ]
-"""
+        """
+
         try:
             response = self._model.generate_content(prompt)
             content = response.text.strip()
 
             logging.debug("LLM raw response for additional questions:\n%s", content)
-
+            
+            
             content = content.replace("```json", "").replace("```", "").strip()
-
+            
+            
             parsed = json.loads(content)
 
             if isinstance(parsed, list):
-                
                 final_list = []
                 for item in parsed:
+                    
                     if isinstance(item, dict) and "question" in item and "answer" in item:
                         final_list.append(item)
                 return final_list
