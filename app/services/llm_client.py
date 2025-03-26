@@ -4,11 +4,12 @@ import json
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s [%(levelname)s] %(message)s")
-
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 MODEL_NAME = "gemini-1.5-flash"
-
 genai.configure(api_key=GEMINI_KEY)
+
+def clean_text(text: str) -> str:
+    return " ".join(text.replace('"', '').split())
 
 class LLMClient:
     def __init__(self, model_name: str = MODEL_NAME):
@@ -16,27 +17,28 @@ class LLMClient:
 
     def format_answer_with_llm(self, question: str, data_result) -> str:
         prompt = f"""
-            Você é um assistente que possui um conjunto de dados já filtrado e agregado.
-            Pergunta do usuário: {question}
-            Dados relevantes (já filtrados): {data_result}
+        Você é um assistente que possui um conjunto de dados já filtrado e agregado.
+        Pergunta do usuário: {question}
+        Dados relevantes (já filtrados): {data_result}
 
-            Instruções:
-            - Elabore uma resposta clara, objetiva e completa, utilizando especificamente esses dados fornecidos.
-            - Não invente dados; se algo não estiver em 'data_result', não suponha valores.
-            - Retorne apenas o texto da resposta, sem formatação adicional, sem JSON.
+        Instruções:
+        - Elabore uma resposta clara, objetiva e completa, utilizando especificamente os dados fornecidos.
+        - Responda de forma natural, humanizada e amigável, evitando qualquer formatação de código ou JSON.
+        - Não insira quebras de linha desnecessárias; retorne o texto em um único parágrafo.
+        - Utilize cumprimentos variados ou, se preferir, não use cumprimentos, apenas seja disposto.
+        - Não invente dados; se algo não estiver em "data_result", não faça suposições.
         """
-
         try:
             response = self._model.generate_content(prompt)
             content = response.text.strip()
             content = content.replace("```", "").strip()
+            content = clean_text(content)
             return content
         except Exception as e:
             logging.exception("Erro ao gerar resposta principal com LLM:")
             return f"[Erro ao gerar resposta principal com LLM: {str(e)}]"
 
     def generate_additional_questions_with_llm(self, original_question: str, data_result) -> list:
-
         prompt = f"""
             Você é um assistente especializado em análise de dados de vendas.
             
@@ -69,30 +71,23 @@ class LLMClient:
               }}
             ]
         """
-
         try:
             response = self._model.generate_content(prompt)
             content = response.text.strip()
-
             logging.debug("LLM raw response for additional questions:\n%s", content)
-            
-            
             content = content.replace("```json", "").replace("```", "").strip()
-            
-            
             parsed = json.loads(content)
-
             if isinstance(parsed, list):
                 final_list = []
                 for item in parsed:
-                    
                     if isinstance(item, dict) and "question" in item and "answer" in item:
+                        item["question"] = clean_text(item["question"])
+                        item["answer"] = clean_text(item["answer"])
                         final_list.append(item)
                 return final_list
             else:
                 logging.error("JSON retornado não é uma lista: %s", parsed)
                 return []
-
         except json.JSONDecodeError as jde:
             logging.error("Falha ao decodificar JSON das perguntas adicionais: %s", str(jde))
             logging.error("Conteúdo retornado:\n%s", content)
