@@ -4,18 +4,28 @@ import json
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s [%(levelname)s] %(message)s")
+
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
+
 MODEL_NAME = "gemini-1.5-flash"
-genai.configure(api_key=GEMINI_KEY)
+
+if GEMINI_KEY:
+    genai.configure(api_key=GEMINI_KEY)
 
 def clean_text(text: str) -> str:
     return " ".join(text.replace('"', '').split())
 
 class LLMClient:
     def __init__(self, model_name: str = MODEL_NAME):
-        self._model = genai.GenerativeModel(model_name=model_name)
+        self._gemini_enabled = bool(GEMINI_KEY)
+        if self._gemini_enabled:
+            self._model = genai.GenerativeModel(model_name=model_name)
+        else:
+            self._model = None
 
     def format_answer_with_llm(self, question: str, data_result) -> str:
+        if not self._gemini_enabled:
+            return str(data_result)
         prompt = f"""
         Você é um assistente que possui um conjunto de dados já filtrado e agregado.
         Pergunta do usuário: {question}
@@ -39,6 +49,8 @@ class LLMClient:
             return f"[Erro ao gerar resposta principal com LLM: {str(e)}]"
 
     def generate_additional_questions_with_llm(self, original_question: str, data_result) -> list:
+        if not self._gemini_enabled:
+            return []
         prompt = f"""
             Você é um assistente especializado em análise de dados de vendas.
             
