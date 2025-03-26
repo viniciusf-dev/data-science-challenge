@@ -38,12 +38,11 @@ def ask_question(request: QuestionRequest):
     
     with ThreadPoolExecutor() as executor:
         future_main = executor.submit(llm.format_answer_with_llm, question_text, data_result)
-        future_additional = executor.submit(llm.generate_additional_questions_with_llm, question_text)
-
-        llm_main_answer = future_main.result()
+        future_additional = executor.submit(llm.generate_additional_questions_with_llm, question_text, data_result)
+        llm_main_answer = future_main.result()  
         additional_qas = future_additional.result()
 
-    
+   
     def process_question(item):
         q = item["question"]
         i = nlp_intent.detect_intent(q)
@@ -57,12 +56,13 @@ def ask_question(request: QuestionRequest):
             r = f()
             a = llm.format_answer_with_llm(q, r)
             return GeneratedQuestion(question=q, answer=a)
-        except:
+        except Exception:
             return GeneratedQuestion(
                 question=q, 
                 answer="Função não implementada para a intenção detectada."
             )
 
+    
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(process_question, item) for item in additional_qas]
         generated_questions = [f.result() for f in futures]
