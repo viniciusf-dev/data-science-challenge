@@ -23,7 +23,7 @@ def ask_question(request: QuestionRequest):
     data_result = analysis_func()
     with ThreadPoolExecutor() as executor:
         future_main = executor.submit(llm.format_answer_with_llm, question_text, data_result)
-        future_additional = executor.submit(llm.generate_additional_questions_with_llm, question_text)
+        future_additional = executor.submit(llm.generate_additional_questions_with_llm, question_text, data_result)
         llm_main_answer = future_main.result()
         additional_qas = future_additional.result()
     def process_question(item):
