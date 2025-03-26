@@ -1,4 +1,3 @@
-# app/routers/questions.py
 from fastapi import APIRouter, HTTPException
 from concurrent.futures import ThreadPoolExecutor
 
