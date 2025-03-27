@@ -52,15 +52,11 @@ class DataAnalyzer:
             return 0.0
         return round(float(total_profit / total_orders), 2)
 
-   
-
     def items_sold_by_subcategory(self) -> List[Dict[str, Any]]:
-        
         totals = self._df.groupby('SubCategory')['Quantity'].sum()
         return [{"subcategory": sub, "total_sold": int(qty)} for sub, qty in totals.items()]
 
     def variation_percentage_avg_value(self) -> Dict[str, Any]:
-
         avg_values = self._df.groupby('SubCategory').apply(lambda g: g['TotalPrice'].sum() / g['Quantity'].sum())
         if avg_values.empty:
             return {"error": "Dados insuficientes para calcular a variação."}
@@ -80,7 +76,6 @@ class DataAnalyzer:
         }
 
     def sum_avg_values_for_subcategories(self, subcategories: List[str] = None) -> Dict[str, Any]:
-
         avg_values = self._df.groupby('SubCategory').apply(lambda g: g['TotalPrice'].sum() / g['Quantity'].sum())
         result = {}
         if subcategories is None:
@@ -98,7 +93,6 @@ class DataAnalyzer:
             return {"subcategories": result, "total_sum": None, "error": f"Subcategorias não encontradas: {', '.join(missing)}"}
 
     def total_sales_by_category(self, categories: List[str] = None) -> Dict[str, Any]:
-
         df = self._df
         if categories:
             df = df[df['Category'].isin(categories)]
@@ -106,7 +100,6 @@ class DataAnalyzer:
         return {cat: float(val) for cat, val in sales.items()}
 
     def sales_proportion_electronics_vs_home_appliances(self) -> Dict[str, Any]:
-
         df = self._df[self._df['Category'].isin(['Eletrônicos', 'Eletrodomésticos'])]
         sales = df.groupby('Category')['TotalPrice'].sum()
         total = sales.sum()
@@ -116,7 +109,6 @@ class DataAnalyzer:
         return proportion
 
     def best_selling_product_by_category(self) -> Dict[str, Any]:
-
         df = self._df[self._df['Category'].isin(['Eletrônicos', 'Eletrodomésticos'])]
         grouped = df.groupby(['Category', 'Product'])['Quantity'].sum()
         result = {}
@@ -130,7 +122,6 @@ class DataAnalyzer:
         return result
 
     def profit_margin_by_category(self) -> Dict[str, Any]:
-
         df = self._df[self._df['Category'].isin(['Eletrônicos', 'Eletrodomésticos'])]
         grouped = df.groupby('Category').agg({'Profit': 'sum', 'TotalPrice': 'sum'})
         result = {}
@@ -144,11 +135,9 @@ class DataAnalyzer:
         return result
 
     def percentage_sales_by_category(self) -> Dict[str, Any]:
-
         return self.sales_proportion_electronics_vs_home_appliances()
 
     def credit_card_sales_proportion(self) -> Dict[str, Any]:
-
         total_sales = self._df['TotalPrice'].sum()
         cc_sales = self._df[self._df['PaymentMethod'] == 'Cartão de Crédito']['TotalPrice'].sum()
         if total_sales == 0:
@@ -157,7 +146,6 @@ class DataAnalyzer:
         return {"credit_card_sales_percentage": proportion}
 
     def avg_item_value_variation_peripherals_over_time(self) -> Any:
-
         if 'OrderDate' not in self._df.columns:
             return {"error": "Coluna 'OrderDate' não encontrada no conjunto de dados."}
         df_peripherals = self._df[self._df['SubCategory'] == 'Periféricos'].copy()
@@ -172,7 +160,6 @@ class DataAnalyzer:
         return result
 
     def most_profitable_product_by_category(self) -> Dict[str, Any]:
-
         grouped = self._df.groupby(['Category', 'Product'])['Profit'].sum()
         result = {}
         for category in self._df['Category'].unique():
@@ -183,3 +170,69 @@ class DataAnalyzer:
             else:
                 result[category] = {"error": "Sem dados para esta categoria"}
         return result
+
+
+    def top3_categories_by_credit(self) -> List[Dict[str, Any]]:
+
+        mask = self._df['PaymentMethod'] == 'Cartão de Crédito'
+        subset = self._df[mask]
+        top_categories = subset['Category'].value_counts().nlargest(3)
+        return [{"category": cat, "count": int(cnt)} for cat, cnt in top_categories.items()]
+
+    def top_payment_methods(self) -> List[Dict[str, Any]]:
+
+        methods = self._df['PaymentMethod'].value_counts().sort_values(ascending=False)
+        return [{"payment_method": method, "count": int(count)} for method, count in methods.items()]
+
+    def top_payment_method_by_category(self) -> Dict[str, Any]:
+
+        grouped = self._df.groupby(['Category', 'PaymentMethod']).size().reset_index(name='count')
+        result = {}
+        for category in self._df['Category'].unique():
+            cat_data = grouped[grouped['Category'] == category]
+            if not cat_data.empty:
+                top_method = cat_data.sort_values('count', ascending=False).iloc[0]
+                result[category] = {"payment_method": top_method['PaymentMethod'], "count": int(top_method['count'])}
+            else:
+                result[category] = {"error": "Sem dados para esta categoria"}
+        return result
+
+    def top_payment_method_by_subcategory(self) -> Dict[str, Any]:
+
+        grouped = self._df.groupby(['SubCategory', 'PaymentMethod']).size().reset_index(name='count')
+        result = {}
+        for subcategory in self._df['SubCategory'].unique():
+            sub_data = grouped[grouped['SubCategory'] == subcategory]
+            if not sub_data.empty:
+                top_method = sub_data.sort_values('count', ascending=False).iloc[0]
+                result[subcategory] = {"payment_method": top_method['PaymentMethod'], "count": int(top_method['count'])}
+            else:
+                result[subcategory] = {"error": "Sem dados para esta subcategoria"}
+        return result
+
+    def profit_by_subcategory(self, subcategory: str = None) -> Any:
+
+        profit = self._df.groupby('SubCategory')['Profit'].sum().round(2)
+        if subcategory:
+            if subcategory in profit.index:
+                return {subcategory: float(profit.loc[subcategory])}
+            else:
+                return {"error": f"Subcategoria '{subcategory}' não encontrada."}
+        else:
+            return {sub: float(profit_val) for sub, profit_val in profit.items()}
+        
+    def total_loss_by_category(self) -> Dict[str, Any]:
+
+        losses = self._df[self._df['Profit'] < 0]
+        if losses.empty:
+            return {"error": "Nenhum prejuízo encontrado nas categorias."}
+        grouped = losses.groupby('Category')['Profit'].sum().round(2)
+        return {cat: float(loss) for cat, loss in grouped.items()}
+
+    def subcategories_with_loss(self) -> List[Dict[str, Any]]:
+
+        profit_by_sub = self._df.groupby('SubCategory')['Profit'].sum().round(2)
+        losing_subcategories = profit_by_sub[profit_by_sub < 0]
+        if losing_subcategories.empty:
+            return [{"message": "Nenhuma subcategoria apresentou prejuízo."}]
+        return [{"subcategory": sub, "total_loss": float(loss)} for sub, loss in losing_subcategories.items()]

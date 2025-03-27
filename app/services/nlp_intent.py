@@ -30,7 +30,6 @@ intent_phrases = {
     "avg_profit_per_order": [
         "média de lucro por transação"
     ],
-    
     "total_sales_electronics_home_appliances": [
         "valor total de vendas para cada categoria (Eletrônicos e Eletrodomésticos) considerando a quantidade vendida",
         "total de vendas por categoria (Eletrônicos e Eletrodomésticos) considerando a quantidade vendida"
@@ -66,6 +65,38 @@ intent_phrases = {
     "most_profitable_product_by_category": [
         "produto mais lucrativo por categoria",
         "qual o produto mais lucrativo em cada categoria"
+    ],
+    "top3_categories_by_credit": [
+        "3 categorias que mais utilizaram cartão de crédito"
+    ],
+    "top_payment_methods": [
+        "quais os meios de pagamento mais utilizados",
+        "meios de pagamento mais utilizados"
+    ],
+    "top_payment_method_by_category": [
+        "qual o meio de pagamento mais utilizado por categoria",
+        "top pagamento por categoria"
+    ],
+    "top_payment_method_by_subcategory": [
+        "qual o meio de pagamento mais utilizado por subcategoria",
+        "top pagamento por subcategoria"
+    ],
+    "profit_by_subcategory": [
+        "lucro por subcategoria",
+        "total de lucro por subcategoria",
+        "valor total de lucro da subcategoria",
+        "qual o lucro total da subcategoria"
+    ],
+   
+    "total_loss_by_category": [
+        "prejuízo total em cada categoria",
+        "qual foi o prejuízo total em cada categoria",
+        "total de prejuízo por categoria"
+    ],
+    "subcategories_with_loss": [
+        "subcategorias com prejuízo",
+        "quais subcategorias apresentaram prejuízo",
+        "lista de subcategorias com prejuízo"
     ]
 }
 

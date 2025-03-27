@@ -53,35 +53,46 @@ class LLMClient:
             return []
         prompt = f"""
             Você é um assistente especializado em análise de dados de vendas.
-            
-            A pergunta original do usuário foi: "{original_question}"
-            Aqui está o resultado (parcial/filtrado) da análise, que pode servir de inspiração para novas perguntas:
-            {data_result}
+A pergunta original do usuário foi: "{original_question}"
+Aqui está o resultado (parcial/filtrado) da análise, que pode servir de inspiração para novas perguntas:
+{data_result}
 
-            Instruções:
-            1. Considere que o resultado acima contém dados concretos e já processados.
-            2. Crie exatamente 3 perguntas adicionais que explorem ou detalhem aspectos relacionados a esses dados.
-               - As perguntas devem ser relevantes e coerentes com as informações em "data_result".
-               - Se desejar, aprofunde pontos não explicitados, mas que façam sentido a partir dos dados.
-               - Evite perguntas totalmente genéricas: busque relacionar com as categorias, métricas ou insights demonstrados.
-            3. Para cada uma dessas 3 perguntas, elabore também uma resposta curta utilizando o dataset de vendas.
-               - Se as informações não estiverem disponíveis, retorne um disclaimer dizendo que não tem dados suficientes.
-               
-            IMPORTANTE: Retorne estritamente em JSON no seguinte formato:
-            [
-              {{
-                "question": "Pergunta 1",
-                "answer": "Resposta curta"
-              }},
-              {{
-                "question": "Pergunta 2",
-                "answer": "Resposta curta"
-              }},
-              {{
-                "question": "Pergunta 3",
-                "answer": "Resposta curta"
-              }}
-            ]
+Instruções:
+1. Considere que o resultado acima contém dados concretos e já processados.
+2. Crie exatamente 3 perguntas adicionais que explorem ou detalhem aspectos relacionados a esses dados.
+   - As perguntas devem ser relevantes e coerentes com as informações em "data_result".
+   - Evite gerar perguntas que não possam ser respondidas por meio dessas análises. Se a análise necessária não existir, retorne um disclaimer informando que não há dados suficientes.
+3. As respostas curtas para cada pergunta também devem utilizar os dados disponíveis no dataset, conforme a análise realizada pelas funções citadas.
+4. Atente-se ao fato de que as colunas presentes no dataset são: [
+    OrderID,
+    Product,
+    Category,
+    SubCategory,
+    Quantity,
+    UnitPrice,
+    TotalPrice,
+    Cost,
+    Profit,
+    PaymentMethod,
+    OrderDate
+   ]
+   Portanto, as perguntas e respostas devem estar relacionadas a essas colunas.
+
+IMPORTANTE: Retorne estritamente em JSON no seguinte formato:
+[
+  {{
+    "question": "Pergunta 1",
+    "answer": "Resposta curta"
+  }},
+  {{
+    "question": "Pergunta 2",
+    "answer": "Resposta curta"
+  }},
+  {{
+    "question": "Pergunta 3",
+    "answer": "Resposta curta"
+  }}
+]
         """
         try:
             response = self._model.generate_content(prompt)
