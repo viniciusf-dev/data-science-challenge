@@ -62,7 +62,7 @@ data-science-challenge/
 2. **Crie e ative um ambiente virtual:**
 
    ```bash
-   python3 -m venv venv
+   python -m venv venv
    source venv/bin/activate  # Linux/Mac
    # ou, no Windows:
    venv\Scripts\activate
@@ -101,7 +101,10 @@ data-science-challenge/
 Após iniciar a API, envie uma requisição com o método POST passando a chave `question` no body da requisição para a rota [http://127.0.0.1:8000/ask](http://127.0.0.1:8000/ask)
 
    ```bash
-  {"question": "Quais as categorias vendidas em maior quantidade?"}
+  curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"question": "Quais as categorias vendidas em maior quantidade?"}' \
+  http://127.0.0.1:8000/ask
    ```
 
 ---
