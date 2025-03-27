@@ -132,7 +132,7 @@ python -m pytest
 
 ## 🔧 Possíveis Melhorias
 
-- **NLP Avançado:** Atualizar o algoritmo atual para uma LLM capaz de gerar queries dinâmicas e interpretar os resultados para respostas mais precisas.
+- **NLP Avançado:** Atualizar o algoritmo atual para uma LLM capaz de gerar queries dinâmicas e interpretar os resultados para respostas mais precisas, pois com a tecnologia NLP atual, mesmo alguns dados de perguntas novas geradas estando presentes na planilha, o NLP falha em encontrá-los e enviar ao LLM.
 - **Otimização de Performance:** Revisar e otimizar funções de manipulação de dados para maior eficiência.
 
 ---
