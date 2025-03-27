@@ -152,4 +152,5 @@ python -m pytest
 | **spaCy**          | 3.8.4               | Utilizado para NLP e detecção de intenções (pode ser ajustado).    |
 | **Gemini API**     | 0.8.4               | Integração para humanização das respostas via API externa.         |
 | **pytest**         | 8.3.5               | Framework para execução dos testes automatizados.                |
+| **httpx**         | 0.28.1              | Biblioteca para auxiliar na execução de testes automatizados.                |
 | **uvicorn**         | 0.34.0             | Servidor ASGI para execução de APIs python.                |
