@@ -9,3 +9,13 @@ OrderID,Product,Category,SubCategory,Quantity,UnitPrice,TotalPrice,Cost,Profit,P
 1008,Monitor 4K,Eletrônicos,Computadores,1,800.00,800.00,600.00,200.00,Transferência Bancária,2023-05-17
 1009,Ferro de Passar,Eletrodomésticos,Passar Roupa,1,90.00,90.00,60.00,30.00,Pix,2023-05-18
 1010,Tablet,Eletrônicos,Tablets,1,400.00,400.00,300.00,100.00,Cartão de Débito,2023-05-19
+1011,Camiseta Estampada,Vestuário,Camisetas,4,30.00,120.00,150.00,-30.00,Pix,01/06/2023
+1012,Tênis Esportivo,Vestuário,Calçados,2,200.00,400.00,350.00,50.00,Cartão de Crédito,02/06/2023
+1013,Jogo de Panelas,Eletrodomésticos,Cozinha,1,300.00,300.00,350.00,-50.00,Boleto,03/06/2023
+1014,Cadeira Gamer,Móveis,Escritório,1,500.00,500.00,450.00,50.00,Cartão de Débito,04/06/2023
+1015,Smart TV 55 Polegadas,Eletrônicos,Televisores,1,800.00,800.00,850.00,-50.00,Transferência Bancária,05/06/2023
+1016,Air Fryer,Eletrodomésticos,Cozinha,1,250.00,250.00,200.00,50.00,Cartão de Crédito,06/06/2023
+1017,Blender Ultra,Eletrodomésticos,Cozinha,2,180.00,360.00,400.00,-40.00,Pix,07/06/2023
+1018,Camiseta Polo,Vestuário,Camisetas,3,50.00,150.00,120.00,30.00,Cartão de Crédito,08/06/2023
+1019,Sapato Social,Vestuário,Calçados,2,150.00,300.00,350.00,-50.00,Boleto,09/06/2023
+1020,Fone de Ouvido,Eletrônicos,Acessórios,4,80.00,320.00,280.00,40.00,Cartão de Débito,10/06/2023
