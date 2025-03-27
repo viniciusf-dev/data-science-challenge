@@ -220,19 +220,3 @@ class DataAnalyzer:
                 return {"error": f"Subcategoria '{subcategory}' não encontrada."}
         else:
             return {sub: float(profit_val) for sub, profit_val in profit.items()}
-        
-    def total_loss_by_category(self) -> Dict[str, Any]:
-
-        losses = self._df[self._df['Profit'] < 0]
-        if losses.empty:
-            return {"error": "Nenhum prejuízo encontrado nas categorias."}
-        grouped = losses.groupby('Category')['Profit'].sum().round(2)
-        return {cat: float(loss) for cat, loss in grouped.items()}
-
-    def subcategories_with_loss(self) -> List[Dict[str, Any]]:
-
-        profit_by_sub = self._df.groupby('SubCategory')['Profit'].sum().round(2)
-        losing_subcategories = profit_by_sub[profit_by_sub < 0]
-        if losing_subcategories.empty:
-            return [{"message": "Nenhuma subcategoria apresentou prejuízo."}]
-        return [{"subcategory": sub, "total_loss": float(loss)} for sub, loss in losing_subcategories.items()]

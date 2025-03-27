@@ -48,7 +48,8 @@ intent_phrases = {
     ],
     "total_sales_by_category": [
         "valor total de vendas para cada categoria (Eletrônicos e Eletrodomésticos)",
-        "total de vendas para Eletrônicos e Eletrodomésticos"
+        "total de vendas para Eletrônicos e Eletrodomésticos",
+        "faturamento total por categoria"
     ],
     "percentage_sales_by_category": [
         "proporção percentual de vendas de Eletrônicos e Eletrodomésticos em relação ao total",
@@ -86,17 +87,6 @@ intent_phrases = {
         "total de lucro por subcategoria",
         "valor total de lucro da subcategoria",
         "qual o lucro total da subcategoria"
-    ],
-   
-    "total_loss_by_category": [
-        "prejuízo total em cada categoria",
-        "qual foi o prejuízo total em cada categoria",
-        "total de prejuízo por categoria"
-    ],
-    "subcategories_with_loss": [
-        "subcategorias com prejuízo",
-        "quais subcategorias apresentaram prejuízo",
-        "lista de subcategorias com prejuízo"
     ]
 }
 
