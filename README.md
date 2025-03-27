@@ -125,7 +125,8 @@ python -m pytest
 
 ## 🖼️ Demonstração
 
-![image](https://github.com/user-attachments/assets/8c38c5b0-6d38-4ead-9820-d40eff19b370)
+![image](https://github.com/user-attachments/assets/b16191eb-979b-41a5-985e-45c1f9e0fac7)
+
 
 ### Exemplo de Demonstração
 
