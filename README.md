@@ -96,6 +96,16 @@ data-science-challenge/
 
 ---
 
+## 🤖 Interagindo com o Modelo 
+
+Após iniciar a API, envie uma requisição com o método POST passando a chave `question` no body da requisição para a rota [http://127.0.0.1:8000/ask](http://127.0.0.1:8000/ask)
+
+   ```bash
+  {"question": "Quais as categorias vendidas em maior quantidade?"}
+   ```
+
+---
+
 ## 📝 Documentação da API
 
 Após iniciar a API, acesse a documentação interativa (Swagger) em:
@@ -115,7 +125,7 @@ python -m pytest
 
 ## 🖼️ Demonstração
 
-Para anexar imagens do modelo funcionando, utilize a seção abaixo. Basta substituir os caminhos das imagens conforme necessário:
+![image](https://github.com/user-attachments/assets/8c38c5b0-6d38-4ead-9820-d40eff19b370)
 
 ### Exemplo de Demonstração
 
