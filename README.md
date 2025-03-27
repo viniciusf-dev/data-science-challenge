@@ -128,11 +128,6 @@ python -m pytest
 ![image](https://github.com/user-attachments/assets/b16191eb-979b-41a5-985e-45c1f9e0fac7)
 ![image](https://github.com/user-attachments/assets/1b644bdb-54b4-41e3-918b-6fd62f3aa6b0)
 
-
-
-### Exemplo de Demonstração
-
-![image](https://github.com/user-attachments/assets/02e5530e-050d-4038-92fc-bf794a6e3ad6)
 ---
 
 ## 🔧 Possíveis Melhorias
