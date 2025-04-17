@@ -1,6 +1,6 @@
-# Data Science Challenge - Logcomex
+# Data Science Challenge
 
-Este repositório contém uma solução para o desafio técnico da Logcomex. O projeto consiste em uma API REST em Python que processa perguntas em linguagem natural, filtrando e analisando os dados do dataset de pedidos de produtos para retornar respostas precisas. Além disso, a solução utiliza boas práticas de desenvolvimento, testes automatizados e documentação interativa via Swagger.
+Este repositório contém uma solução de tech challenge. O projeto consiste em uma API REST em Python que processa perguntas em linguagem natural, filtrando e analisando os dados do dataset de pedidos de produtos para retornar respostas precisas. Além disso, a solução utiliza boas práticas de desenvolvimento, testes automatizados e documentação interativa via Swagger.
 
 ---
 
